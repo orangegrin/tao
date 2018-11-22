@@ -66,6 +66,7 @@ def get_stats(symbol):
         stats['1d'] = 'down'
     if MAs[0][-1] > MAs[1][-1] > MAs[2][-1] > MAs[3][-1]:
         stats['1d'] = 'up'
+    print(stats)
     return stats
 
 
@@ -74,13 +75,15 @@ last_stats_dict = {}
 
 def save_to_redis(key, stats):
     j = json.dumps(stats)
-    if key not in last_stats_dict or last_stats_dict[key] != j:
-        now = int(time.time() * 1000)
-        r.hmset(key, {now: j})
-        last_stats_dict[key] = j
-        print(stats)
-    else:
-        print('no change %s' % key)
+    # if key not in last_stats_dict or last_stats_dict[key] != j:
+    now = int(time.time() * 1000)
+    r.hmset(key, {now: j})
+    last_stats_dict[key] = j
+    print('save changes')
+    # else:
+    #     print('no change %s' % key)
+
+
 while True:
     try:
         # BTC/USD
@@ -92,5 +95,5 @@ while True:
     except Exception as e:
         print(e)
     finally:
-        interval = 10 * 60  # 10 minutes
+        interval = 10 * 60  # 15 minutes
         time.sleep(interval)
