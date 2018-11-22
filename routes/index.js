@@ -10,17 +10,24 @@ router.get('/', function (req, res, next) {
 
 router.get('/stats', function (req, res, next) {
   let key = req.query.key;
-  client.hvals(key, (err, vals) => {
+  client.hkeys(key, (err, keys) => {
+    keys = keys.sort();
     let data = {}
-    if (vals && vals.length >= 2) {
+    if (keys && keys.length >= 2) {
       data['status'] = 1;
-      data['cur'] = JSON.parse(vals.pop());
-      data['pre'] = JSON.parse(vals.pop());
+      curKey = JSON.parse(keys.pop());
+      preKey = JSON.parse(keys.pop());
+      client.hmget(key, [curKey, preKey], (err, vals) => {
+        data['cur'] = JSON.parse(vals[0]);
+        data['pre'] = JSON.parse(vals[1]);
+        res.send(data);
+      });
     } else {
       data['status'] = 2;
       data['err'] = 'No data obtained';
+      res.send(data)
     }
-    res.send(data)
+
   })
 });
 
