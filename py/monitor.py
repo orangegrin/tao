@@ -4,9 +4,11 @@ import time
 import ccxt
 import pandas as pd
 import talib
+import redis
+import json
 
 exchange = ccxt.bitmex()
-exchange.load_markets()
+r = redis.Redis(host='localhost', port=6379, db=0)
 
 
 def get_ohlc(symbol, timeframe, resampleTimeframe):
@@ -67,7 +69,28 @@ def get_stats(symbol):
     return stats
 
 
-stats = get_stats('BTC/USD')
-print(stats)
-stats = get_stats('BCHZ18')
-print(stats)
+last_stats_dict = {}
+
+
+def save_to_redis(key, stats):
+    j = json.dumps(stats)
+    if key not in last_stats_dict or last_stats_dict[key] != j:
+        now = int(time.time() * 1000)
+        r.hmset(key, {now: j})
+        last_stats_dict[key] = j
+        print(stats)
+    else:
+        print('no change %s' % key)
+while True:
+    try:
+        # BTC/USD
+        stats = get_stats('BTC/USD')
+        save_to_redis('bitmex:BTC/USD', stats)
+        # BCHZ18
+        stats = get_stats('BCHZ18')
+        save_to_redis('bitmex:BCHZ18', stats)
+    except Exception as e:
+        print(e)
+    finally:
+        interval = 10 * 60  # 10 minutes
+        time.sleep(interval)
