@@ -66,7 +66,6 @@ def get_stats(symbol):
         stats['1d'] = 'down'
     if MAs[0][-1] > MAs[1][-1] > MAs[2][-1] > MAs[3][-1]:
         stats['1d'] = 'up'
-    print(stats)
     return stats
 
 
@@ -74,24 +73,29 @@ last_stats_dict = {}
 
 
 def save_to_redis(key, stats):
-    j = json.dumps(stats)
+    val = json.dumps(stats)
     # if key not in last_stats_dict or last_stats_dict[key] != j:
     now = int(time.time() * 1000)
-    r.hmset(key, {now: j})
-    last_stats_dict[key] = j
-    print('save changes')
+    r.hmset(key, {now: val})
+    last_stats_dict[key] = val
+    print('save to redis: %s' % (val))
     # else:
     #     print('no change %s' % key)
 
 
+def bitmex_listen(symbol):
+    stats = get_stats(symbol)
+    save_to_redis('bitmex:%s' % (symbol), stats)
+
+
 while True:
     try:
-        # BTC/USD
-        stats = get_stats('BTC/USD')
-        save_to_redis('bitmex:BTC/USD', stats)
-        # BCHZ18
-        stats = get_stats('BCHZ18')
-        save_to_redis('bitmex:BCHZ18', stats)
+        bitmex_listen('BTC/USD')
+        bitmex_listen('ETHZ18')
+        bitmex_listen('LTCZ18')
+        bitmex_listen('EOSZ18')
+        bitmex_listen('XRPZ18')
+        bitmex_listen('BCHZ18')
     except Exception as e:
         print(e)
     finally:
