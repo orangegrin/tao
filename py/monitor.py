@@ -42,6 +42,17 @@ def get_stats(symbol):
         stats['30m'] = 'down'
     if MAs[0][-1] > MAs[1][-1] > MAs[2][-1] > MAs[3][-1]:
         stats['30m'] = 'up'
+    macd, macdsignal, macdhist = talib.MACD(
+        df_ohlc['close'], fastperiod=12, slowperiod=26, signalperiod=9)
+
+    # 30M macd
+    macd_key = "macd_30m"
+    stats[macd_key] = 'mix'
+    if(macd[-1] > 0):
+        stats[macd_key] = 'up'
+    if(macd[-1] < 0):
+        stats[macd_key] = 'down'
+
     # 1H
     stats['1h'] = 'mix'
     df_ohlc = get_ohlc(symbol, '1h', '1H')
@@ -50,6 +61,15 @@ def get_stats(symbol):
         stats['1h'] = 'down'
     if MAs[0][-1] > MAs[1][-1] > MAs[2][-1] > MAs[3][-1]:
         stats['1h'] = 'up'
+
+    # 1h macd
+    macd_key = "macd_1h"
+    stats[macd_key] = 'mix'
+    if(macd[-1] > 0):
+        stats[macd_key] = 'up'
+    if(macd[-1] < 0):
+        stats[macd_key] = 'down'
+
     # 4H
     stats['4h'] = 'mix'
     df_ohlc = get_ohlc(symbol, '1h', '4H')
@@ -58,6 +78,15 @@ def get_stats(symbol):
         stats['4h'] = 'down'
     if MAs[0][-1] > MAs[1][-1] > MAs[2][-1] > MAs[3][-1]:
         stats['4h'] = 'up'
+
+    # 4h macd
+    macd_key = "macd_4h"
+    stats[macd_key] = 'mix'
+    if(macd[-1] > 0):
+        stats[macd_key] = 'up'
+    if(macd[-1] < 0):
+        stats[macd_key] = 'down'
+
     # 1D
     stats['1d'] = 'mix'
     df_ohlc = get_ohlc(symbol, '1d', '1D')
@@ -66,6 +95,15 @@ def get_stats(symbol):
         stats['1d'] = 'down'
     if MAs[0][-1] > MAs[1][-1] > MAs[2][-1] > MAs[3][-1]:
         stats['1d'] = 'up'
+
+    # 1d macd
+    macd_key = "macd_1d"
+    stats[macd_key] = 'mix'
+    if(macd[-1] > 0):
+        stats[macd_key] = 'up'
+    if(macd[-1] < 0):
+        stats[macd_key] = 'down'
+    print(stats)
     return stats
 
 
