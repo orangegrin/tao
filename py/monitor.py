@@ -103,7 +103,6 @@ def get_stats(symbol):
         stats[macd_key] = 'up'
     if(macd[-1] < 0):
         stats[macd_key] = 'down'
-    print(stats)
     return stats
 
 
