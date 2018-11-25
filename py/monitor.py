@@ -48,9 +48,9 @@ def get_stats(symbol):
         df_ohlc['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     macd_key = "macd_30m"
     stats[macd_key] = 'mix'
-    if(macd[-1] > 0):
+    if(macdhist[-1] > 0):
         stats[macd_key] = 'up'
-    if(macd[-1] < 0):
+    if(macdhist[-1] < 0):
         stats[macd_key] = 'down'
 
     # 1H
@@ -67,9 +67,9 @@ def get_stats(symbol):
         df_ohlc['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     macd_key = "macd_1h"
     stats[macd_key] = 'mix'
-    if(macd[-1] > 0):
+    if(macdhist[-1] > 0):
         stats[macd_key] = 'up'
-    if(macd[-1] < 0):
+    if(macdhist[-1] < 0):
         stats[macd_key] = 'down'
 
     # 4H
@@ -86,9 +86,9 @@ def get_stats(symbol):
         df_ohlc['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     macd_key = "macd_4h"
     stats[macd_key] = 'mix'
-    if(macd[-1] > 0):
+    if(macdhist[-1] > 0):
         stats[macd_key] = 'up'
-    if(macd[-1] < 0):
+    if(macdhist[-1] < 0):
         stats[macd_key] = 'down'
 
     # 1D
@@ -105,9 +105,9 @@ def get_stats(symbol):
         df_ohlc['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     macd_key = "macd_1d"
     stats[macd_key] = 'mix'
-    if(macd[-1] > 0):
+    if(macdhist[-1] > 0):
         stats[macd_key] = 'up'
-    if(macd[-1] < 0):
+    if(macdhist[-1] < 0):
         stats[macd_key] = 'down'
     return stats
 
