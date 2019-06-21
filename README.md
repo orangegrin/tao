@@ -56,6 +56,7 @@ http://35.185.172.169:3000/stats?key=bitmex:BTC/USD
 ### 首次安装 
 * nodejs & npm
 - https://tecadmin.net/install-latest-nodejs-npm-on-ubuntu/
+--   
 * python3 pipenv & ta-lib
 - wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz && tar -xzf ta-lib-0.4.0-src.tar.gz && cd ta-lib/ && sudo ./configure && sudo make && sudo make install && pip3 install ta-lib
 - pip3 install pipenv 
