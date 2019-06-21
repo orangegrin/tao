@@ -134,11 +134,11 @@ def bitmex_listen(symbol):
 while True:
     try:
         bitmex_listen('BTC/USD')
-        bitmex_listen('ETHZ18')
-        bitmex_listen('LTCZ18')
-        bitmex_listen('EOSZ18')
-        bitmex_listen('XRPZ18')
-        bitmex_listen('BCHZ18')
+        bitmex_listen('ETH/USD')
+        bitmex_listen('LTCM19')
+        bitmex_listen('EOSM19')
+        bitmex_listen('XRPM19')
+        bitmex_listen('BCHM19')
     except Exception as e:
         print(e)
     finally:
