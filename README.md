@@ -1,7 +1,7 @@
 # tao
 
 ### API 请求地址 :
-http://35.185.172.169:3000/stats?key=bitmex:BTC/USD
+http://150.109.52.225:3003/stats?key=bitmex:BTC/USD  
 
 ### 支持的keys : 
 - bitmex:BTC/USD
